@@ -1,4 +1,3 @@
-// ✅ FINAL UPDATED server.js with GPT generation
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,11 +12,28 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-app.use(cors());
+// ✅ Set up CORS to allow Vercel frontend
+const allowedOrigins = [
+  'https://techonsy-rag-chatbot.vercel.app', // ✅ Your deployed frontend
+  'http://localhost:5173', // ✅ For local dev (optional)
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  })
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("\ud83d\ude80 Movie RAG backend is running!");
+  res.send("🚀 Movie RAG backend is running!");
 });
 
 app.post("/query", async (req, res) => {
@@ -43,7 +59,7 @@ app.post("/query", async (req, res) => {
 
     const matchedMovies = searchResult.matches.map((match, i) => {
       const { title, year, genres, rating } = match.metadata;
-      return `${i + 1}. ${title} (${year}) - ${genres} - \u2b50 ${rating}`;
+      return `${i + 1}. ${title} (${year}) - ${genres} - ⭐ ${rating}`;
     });
 
     const context = matchedMovies.join("\n");
@@ -60,11 +76,11 @@ app.post("/query", async (req, res) => {
     res.json({ answer: finalAnswer });
 
   } catch (err) {
-    console.error("\u274c Error processing query:", err);
+    console.error("❌ Error processing query:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`\u2705 Backend server is running at http://localhost:${PORT}`);
+  console.log(`✅ Backend server is running at http://localhost:${PORT}`);
 });
