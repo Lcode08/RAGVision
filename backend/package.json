@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Node.js backend for IMDb RAG chatbot",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pinecone-database/pinecone": "^2.2.2",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "fast-csv": "^5.0.2",
+    "fs": "^0.0.1-security",
+    "openai": "^5.9.0",
+    "sqlite3": "^5.1.7"
+  }
+}
